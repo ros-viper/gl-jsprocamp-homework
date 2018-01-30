@@ -2,7 +2,7 @@
   Напишите функцию, которая принимает 1 аргумент и возварщает его тип
 */
 function getDataType(variable) {
-
+  return typeof variable;
 }
 
 /*
@@ -14,9 +14,20 @@ function getDataType(variable) {
   'object-function' - если функция
 */
 function getDataTypePseudoName(variable) {
-
+  const type = typeof variable;
+  if (type === 'boolean' || type === 'number' || type === 'string') {
+    return 'primitive';
+  } else if (type === 'undefined' || variable === null) {
+    return 'primitive-special';
+  } else if (type === 'function') {
+    return 'object-function';
+  } else if (type === 'object' ) {
+      if (Array.isArray(variable)) {
+        return 'object-array';
+      }
+    return 'object';
+  }
 }
-
 
 /*
   Напишите функцию, которая принимает 2 аргумента,
@@ -25,7 +36,12 @@ function getDataTypePseudoName(variable) {
   и -1 в другом случае
 */
 function compareByType(a, b) {
-
+  if (a === b) {
+    return 1;
+  } else if (a == b) {
+    return 0;
+  }
+  return -1;
 }
 
 // Numbers
@@ -37,7 +53,10 @@ function compareByType(a, b) {
   в любом другом случае возврвщвет -1
 */
 function increase(value) {
-
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    return value + 1;
+  }
+  return -1;
 }
 
 /*
@@ -45,9 +64,11 @@ function increase(value) {
   и в случае если аргумент не Infinity или NaN возвращает строку 'safe' иначе 'danger'
 */
 function testForSafeNumber(value) {
-
+  if (Number.isFinite(value)) {
+    return 'safe';
+  }
+  return 'danger';
 }
-
 
 
 // Strings
@@ -57,7 +78,10 @@ function testForSafeNumber(value) {
   и возвращает массив из елементов строки разделенных по пробелу ' '
 */
 function stringToArray(str) {
-
+  if (typeof str === 'string') {
+    return str.split(' ');
+  }
+  return 'Wrong argument type';
 }
 
 
@@ -66,7 +90,10 @@ function stringToArray(str) {
   и возвращает часть этой строки до первой запятой
 */
 function getStringPart(str) {
-
+  if (typeof str === 'string') {
+    return str.split(',')[0];
+  }
+  return 'Wrong argument type';
 }
 
 /*
@@ -75,7 +102,10 @@ function getStringPart(str) {
   false в противоположном случае
 */
 function isSingleSymbolMatch(str, symbol) {
-
+  if (str.indexOf(symbol) === str.lastIndexOf(symbol)) {
+    return str.indexOf(symbol);
+  }
+  return false;
 }
 
 /*
@@ -85,7 +115,10 @@ function isSingleSymbolMatch(str, symbol) {
   или строку разделенную "-" если не задан
 */
 function join(array, separator) {
-
+  if (separator) {
+    return array.join(separator);
+  }
+  return array.join('-');
 }
 
 
@@ -94,7 +127,7 @@ function join(array, separator) {
   и возвращает один состоящий из элементов перового и второго (последовательно сначала первый потом второй)
 */
 function glue(arrA, arrB) {
-
+  return [...arrA, ...arrB];
 }
 
 
@@ -103,7 +136,13 @@ function glue(arrA, arrB) {
   и возвращает другой массив отсортированный от большего к меньшему
 */
 function order(arr) {
-
+  const sortedArr = arr.sort((a, b) => {
+    if (a !== b) {
+      return b > a ? 1 : -1;
+    }
+    return 0;
+  })
+  return sortedArr;
 }
 
 
@@ -112,7 +151,7 @@ function order(arr) {
   и возвращает другой без чисел которые меньше 0
 */
 function removeNegative(arr) {
-
+  return arr.filter(x => x >= 0);
 }
 
 /*
@@ -122,7 +161,7 @@ function removeNegative(arr) {
   [1,2,3], [1, 3] => [2]
 */
 function without(arrA, arrB) {
-
+  return arrA.filter(x => !arrB.includes(x));
 }
 
 /*
@@ -133,7 +172,12 @@ function without(arrA, arrB) {
   '12/6' => 2
 */
 function calcExpression(expression) {
-
+  try {
+    return eval(expression);
+  }
+  catch (error) {
+    return NaN;
+  }
 }
 
 /*
@@ -145,7 +189,12 @@ function calcExpression(expression) {
   '100>5' => true
 */
 function calcComparison(expression) {
-
+  try {
+    return eval(expression);
+  }
+  catch (error) {
+    throw error;
+  }
 }
 
 /*
@@ -157,7 +206,20 @@ function calcComparison(expression) {
   { a: 1, b: 2 }, '.c' => exception
 */
 function evalKey(obj, expression) {
-
+  let result = obj;
+  const arrExp = expression.split('.');
+  if (arrExp.length == 1) {
+    throw new Error();
+  }
+  for (const el of arrExp) {
+    if (el) {
+      result = result[el];
+    }
+  }
+  if (result == undefined) {
+    throw new Error();
+  }
+  return result;
 }
 
 export default {
@@ -176,5 +238,5 @@ export default {
   without,
   calcExpression,
   calcComparison,
-  evalKey
+  evalKey,
 };
