@@ -75,11 +75,6 @@ export function logger(topic) {
 /*
   Implement left to right compose function
 */
-// export function compose(func1, func2) {
-//   return function(value) {
-//     return func2(func1(value));
-//   }
-// }
 export function compose(...rest) {
   return function(value) {
     return rest.reduce((func1, func2) => func2(func1(value)));
