@@ -12,7 +12,7 @@ export function countOptional(param1, param2, ...rest) {
 */
 export function bindContext(fn, context, ...rest) {
   return function() {
-    return fn.call(context, ...rest);
+    return fn.apply(context, rest);
   }
 }
 // export function bindContext(fn, context) {
@@ -28,7 +28,7 @@ export function bindContext(fn, context, ...rest) {
 //   // const slicedArgs = Array.from(rest).slice(2);
 //   obj.func = fn;
 //   return function() {
-//     return obj.func(...rest);
+//     return obj.func(rest);
 //   }
 // }
 
@@ -48,13 +48,12 @@ export function bindContext(fn, context, ...rest) {
   Take to account, that you should track log call index starting from 1
 */
 export function addLogCapability(object) {
-  object.counter = 0;
+  let counter = 0;
   const log = function() {
-    object.counter += 1;
     if (this.name) {
-      return `Log message #${this.counter}: my name is ${this.name}`;
+      return `Log message #${counter +=1}: my name is ${this.name}`;
     } else {
-      return `Log message #${this.counter}: I dont have name`;
+      return `Log message #${counter +=1}: I dont have name`;
     }
   }
   object.log = log.bind(object);
@@ -77,7 +76,7 @@ export function logger(topic) {
 */
 export function compose(...rest) {
   return function(value) {
-    return rest.reduce((func1, func2) => func2(func1(value)));
+    return rest.reduce((func1, func2) => (func2(func1)), value);
   }
 }
 

@@ -8,8 +8,43 @@
   in forEach() method.
   mySet = createSet(['a', 'b', 'c'])
 */
-export function createSet(arr) {
-
+export function createSet(arr = []) {
+  const setPrototype = {
+    get size() {
+      return this.length || 0;
+    },
+    add(val) {
+      if (!Array.prototype.includes.call(this, val)) {
+        Array.prototype.push.call(this, val);
+      }
+    },
+    has(val) {
+      return Array.prototype.includes.call(this, val);
+    },
+    delete(val) {
+      if (Array.prototype.includes.call(this, val)) {
+        Array.prototype.splice.call(this, (Array.prototype.indexOf.call(this, val)), 1);
+        return true;
+      }
+      return false;
+    },
+    forEach(fn) {
+      return Array.prototype.forEach.call(this, element => fn(element));
+    },
+    clear() {
+      Array.prototype.splice.call(this, 0);
+    }
+  }
+  const arrSet = [];
+  if (arr && Array.isArray(arr)) {
+    arr.forEach(element => {
+      if (!arrSet.includes(element)) {
+        arrSet.push(element);
+      }
+    });
+    Object.setPrototypeOf(arrSet, setPrototype)
+  }
+  return arrSet;
 }
 
 /*
