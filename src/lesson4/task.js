@@ -107,12 +107,11 @@ export function createMap(arr = []) {
   const arrMap = [];
   if (arr && Array.isArray(arr)) {
     arr.forEach(arrElement => {
+      // mapPrototype.set.call(arrMap, arrElement);
       try {
         arrMap.filter(elem => elem[0] === arrElement[0])[0][1] = arrElement[1];
       } catch (e) {
-        if (e instanceof TypeError) {
-          arrMap.push(arrElement);
-        }
+        arrMap.push(arrElement);
       }
     });
   }
