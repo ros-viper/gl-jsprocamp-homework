@@ -12,7 +12,7 @@ export function countOptional(param1, param2, ...rest) {
 */
 export function bindContext(fn, context, ...rest) {
   return function() {
-    return fn.apply(context, rest);
+    return fn.apply(context, rest, ...rest);
   }
 }
 // export function bindContext(fn, context) {
