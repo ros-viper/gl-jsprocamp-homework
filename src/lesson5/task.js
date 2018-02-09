@@ -19,10 +19,10 @@ Game.STATUSES = {
 
 Game.prototype.beginJourney = function() {
   if (!this.hero || this.monsters.length < 2) {
-    throw new Error("Cannot start journey, populate the world with hero and monsters first");
+    throw new Error('Cannot start journey, populate the world with hero and monsters first');
   }
   this.status = Game.STATUSES.progress;
-  return "Your journey has started, fight monsters";
+  return 'Your journey has started, fight monsters';
 }
 
 Game.prototype.addHero = function(hero) {
@@ -117,7 +117,7 @@ Character.prototype.attack = function(target) {
 function Hero(name, charClass) {
   const heroClass = Hero[charClass.toUpperCase()];
   if (!heroClass) {
-    throw new Error("Incorrect character class provided");
+    throw new Error('Incorrect character class provided');
   }
   Character.call(this, heroClass.charClass, heroClass.life, heroClass.damage);
   this.name = name;
@@ -125,25 +125,25 @@ function Hero(name, charClass) {
 
 Hero.prototype = Object.create(Character.prototype);
 Hero.prototype.constructor = Hero;
-Hero.WARRIOR = {charClass: "Warrior", life: 30, damage: 4};
-Hero.ROGUE = {charClass: "Rogue", life: 25, damage: 3};
-Hero.SORCERER = {charClass: "Sorcerer", life: 20, damage: 5};
-Hero.MESSAGES = {refuse: "I will attack only monsters", hit: "Hero attacked,"};
+Hero.WARRIOR = {charClass: 'Warrior', life: 30, damage: 4};
+Hero.ROGUE = {charClass: 'Rogue', life: 25, damage: 3};
+Hero.SORCERER = {charClass: 'Sorcerer', life: 20, damage: 5};
+Hero.MESSAGES = {refuse: 'I will attack only monsters', hit: 'Hero attacked,'};
 
 function Monster(charClass) {
   const monsterClass = Monster[charClass.toUpperCase()];
   if (!monsterClass) {
-    throw new Error("Incorrect character class provided");
+    throw new Error('Incorrect character class provided');
   }
   Character.call(this, monsterClass.charClass, monsterClass.life, monsterClass.damage);
 }
 
 Monster.prototype = Object.create(Character.prototype);
 Monster.prototype.constructor = Monster;
-Monster.ZOMBIE = {charClass: "Zombie", life: 8, damage: 4};
-Monster.SKELETON = {charClass: "Skeleton", life: 10, damage: 6};
-Monster.HOLEM = {charClass: "Holem", life: 15, damage: 6};
-Monster.MESSAGES = {refuse: "I will attack only Hero", hit: "Monster attacked,"};
+Monster.ZOMBIE = {charClass: 'Zombie', life: 8, damage: 4};
+Monster.SKELETON = {charClass: 'Skeleton', life: 10, damage: 6};
+Monster.HOLEM = {charClass: 'Holem', life: 15, damage: 6};
+Monster.MESSAGES = {refuse: 'I will attack only Hero', hit: 'Monster attacked,'};
 
 
 /* Game Population mechanism should go below */
