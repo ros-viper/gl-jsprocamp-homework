@@ -29,7 +29,7 @@ Game.prototype.addHero = function (hero) {
   if (this.hero) {
     throw new Error('Only one hero can exist');
   }
-  if (hero.constructor.name !== 'Hero') {
+  if (hero.constructor !== Hero) {
     throw new Error('Only hero instance can be hero');
   }
   this.hero = hero;
@@ -40,7 +40,7 @@ Game.prototype.addMonster = function (monster) {
   if (this.monsters.length >= 2) {
     throw new Error('Only 2 monsters can exist');
   }
-  if (monster.constructor.name !== 'Monster') {
+  if (monster.constructor !== Monster) {
     throw new Error('Only monster Instances can become monsters');
   }
   this.monsters.push(monster);
@@ -103,9 +103,6 @@ Character.prototype.getName = function () {
 };
 Character.prototype.getCharClass = function () { return this.charClass; };
 Character.prototype.attack = function (target) {
-  if (this.constructor.name === target.constructor.name) {
-    return this.constructor.MESSAGES.refuse;
-  }
   if (target.life <= this.damage) {
     target.life = 0;
     return `${this.constructor.MESSAGES.hit} ${target.charClass} killed`;
@@ -129,6 +126,12 @@ Hero.WARRIOR = { charClass: 'Warrior', life: 30, damage: 4 };
 Hero.ROGUE = { charClass: 'Rogue', life: 25, damage: 3};
 Hero.SORCERER = { charClass: 'Sorcerer', life: 20, damage: 5 };
 Hero.MESSAGES = { refuse: 'I will attack only monsters', hit: 'Hero attacked,' };
+Hero.prototype.attack = function (target) {
+  if (target instanceof Monster) {
+    return Character.prototype.attack.call(this, target);
+  }
+  return this.constructor.MESSAGES.refuse;
+};
 
 function Monster(charClass) {
   const monsterClass = Monster[charClass.toUpperCase()];
@@ -144,6 +147,12 @@ Monster.ZOMBIE = { charClass: 'Zombie', life: 8, damage: 4 };
 Monster.SKELETON = { charClass: 'Skeleton', life: 10, damage: 6 };
 Monster.HOLEM = { charClass: 'Holem', life: 15, damage: 6 };
 Monster.MESSAGES = { refuse: 'I will attack only Hero', hit: 'Monster attacked,' };
+Monster.prototype.attack = function (target) {
+  if (target instanceof Hero) {
+    return Character.prototype.attack.call(this, target);
+  }
+  return this.constructor.MESSAGES.refuse;
+};
 
 
 /* Game Population mechanism should go below */
