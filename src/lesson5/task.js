@@ -17,7 +17,7 @@ Game.STATUSES = {
   finished: 'Finished'
 }
 
-Game.prototype.beginJourney = function() {
+Game.prototype.beginJourney = function () {
   if (!this.hero || this.monsters.length < 2) {
     throw new Error('Cannot start journey, populate the world with hero and monsters first');
   }
@@ -25,7 +25,7 @@ Game.prototype.beginJourney = function() {
   return 'Your journey has started, fight monsters';
 }
 
-Game.prototype.addHero = function(hero) {
+Game.prototype.addHero = function (hero) {
   if (this.hero) {
     throw new Error('Only one hero can exist');
   }
@@ -36,7 +36,7 @@ Game.prototype.addHero = function(hero) {
   return `Hero created, welcome ${hero.name}`;
 }
 
-Game.prototype.addMonster = function(monster) {
+Game.prototype.addMonster = function (monster) {
   if (this.monsters.length >= 2) {
     throw new Error('Only 2 monsters can exist');
   }
@@ -47,7 +47,7 @@ Game.prototype.addMonster = function(monster) {
   return `Monster Created, ${monster.charClass} appeared in the world`;
 }
 
-Game.prototype.finishJourney = function() {
+Game.prototype.finishJourney = function () {
   if (this.hero.life === 0) {
     return 'The Game is finished. Hero is dead :(';
     this.status = Game.STATUSES.finished;
@@ -60,7 +60,7 @@ Game.prototype.finishJourney = function() {
   return 'Don`t stop. Some monsters are still alive. Kill`em all'
 }
 
-Game.prototype.fight = function() {
+Game.prototype.fight = function () {
   if (this.status !== Game.STATUSES.progress) {
     throw new Error('Begin your journey to start fighting monsters');
   }
@@ -95,14 +95,14 @@ function Character(charClass, life, damage) {
   this.damage = damage;
 }
 
-Character.prototype.getName = function() {
+Character.prototype.getName = function () {
   if (!this.name) {
     return `I am ${this.charClass} I don\`t have name`;
   }
   return this.name;
 };
-Character.prototype.getCharClass = function() { return this.charClass; };
-Character.prototype.attack = function(target) {
+Character.prototype.getCharClass = function () { return this.charClass; };
+Character.prototype.attack = function (target) {
   if (this.constructor.name === target.constructor.name) {
     return this.constructor.MESSAGES.refuse;
   }
@@ -125,10 +125,10 @@ function Hero(name, charClass) {
 
 Hero.prototype = Object.create(Character.prototype);
 Hero.prototype.constructor = Hero;
-Hero.WARRIOR = {charClass: 'Warrior', life: 30, damage: 4};
-Hero.ROGUE = {charClass: 'Rogue', life: 25, damage: 3};
-Hero.SORCERER = {charClass: 'Sorcerer', life: 20, damage: 5};
-Hero.MESSAGES = {refuse: 'I will attack only monsters', hit: 'Hero attacked,'};
+Hero.WARRIOR = { charClass: 'Warrior', life: 30, damage: 4 };
+Hero.ROGUE = { charClass: 'Rogue', life: 25, damage: 3};
+Hero.SORCERER = { charClass: 'Sorcerer', life: 20, damage: 5 };
+Hero.MESSAGES = { refuse: 'I will attack only monsters', hit: 'Hero attacked,' };
 
 function Monster(charClass) {
   const monsterClass = Monster[charClass.toUpperCase()];
@@ -140,10 +140,10 @@ function Monster(charClass) {
 
 Monster.prototype = Object.create(Character.prototype);
 Monster.prototype.constructor = Monster;
-Monster.ZOMBIE = {charClass: 'Zombie', life: 8, damage: 4};
-Monster.SKELETON = {charClass: 'Skeleton', life: 10, damage: 6};
-Monster.HOLEM = {charClass: 'Holem', life: 15, damage: 6};
-Monster.MESSAGES = {refuse: 'I will attack only Hero', hit: 'Monster attacked,'};
+Monster.ZOMBIE = { charClass: 'Zombie', life: 8, damage: 4 };
+Monster.SKELETON = { charClass: 'Skeleton', life: 10, damage: 6 };
+Monster.HOLEM = { charClass: 'Holem', life: 15, damage: 6 };
+Monster.MESSAGES = { refuse: 'I will attack only Hero', hit: 'Monster attacked,' };
 
 
 /* Game Population mechanism should go below */

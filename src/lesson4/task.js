@@ -63,12 +63,19 @@ export function createMap(arr = []) {
       return this.length || 0;
     },
     has(key) {
+      if (Number.isNaN(key)) {
+        return Array.prototype.filter.call(this, (element => Number.isNaN(element[0]))).length > 0;
+      }
       return Array.prototype.filter.call(this, (element => element[0] === key)).length > 0;
     },
     set(...rest) {
       if (rest) {
         try {
-          Array.prototype.filter.call(this, (elem => elem[0] === rest[0]))[0][1] = rest[1];
+          if (Number.isNaN(rest[0])) {
+            Array.prototype.filter.call(this, (elem => Number.isNaN(elem[0])))[0][1] = rest[1];
+          } else {
+            Array.prototype.filter.call(this, (elem => elem[0] === rest[0]))[0][1] = rest[1];
+          }
         } catch(e) {
           Array.prototype.push.call(this, [rest[0], rest[1]]);
         }
@@ -83,10 +90,10 @@ export function createMap(arr = []) {
       }
     },
     delete(val) {
-      if (val) {
+      if (val || Number.isNaN(val)) {
         try {
           Array.prototype.filter.call(this, elem => {
-            if (elem[0] === val) {
+            if (elem[0] === val || Number.isNaN(elem[0])) {
               Array.prototype.splice.call(this, (Array.prototype.indexOf.call(this, elem)), 1);
               return true;
             }

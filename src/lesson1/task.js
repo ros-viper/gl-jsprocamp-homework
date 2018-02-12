@@ -53,7 +53,7 @@ function compareByType(a, b) {
   в любом другом случае возврвщвет -1
 */
 function increase(value) {
-  if (typeof value === 'number' && Number.isFinite(value)) {
+  if (typeof value === 'number') {
     return value + 1;
   }
   return -1;
@@ -189,11 +189,14 @@ function calcExpression(expression) {
   '100>5' => true
 */
 function calcComparison(expression) {
+  const isEqual = expression.split('=');
   try {
+    if (isEqual.length > 1 && !isEqual[0].includes('<') && !isEqual[0].includes('>')) {
+      return expression.split('=')[0] === expression.split('=')[1];
+    }
     return eval(expression);
-  }
-  catch (error) {
-    throw error;
+  } catch (error) {
+    throw new Error(error);
   }
 }
 
@@ -208,7 +211,7 @@ function calcComparison(expression) {
 function evalKey(obj, expression) {
   let result = obj;
   const arrExp = expression.split('.');
-  if (arrExp.length == 1) {
+  if (arrExp.length === 1) {
     throw new Error();
   }
   for (const el of arrExp) {
@@ -216,7 +219,7 @@ function evalKey(obj, expression) {
       result = result[el];
     }
   }
-  if (result == undefined) {
+  if (result === undefined) {
     throw new Error();
   }
   return result;

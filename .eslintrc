@@ -3,6 +3,7 @@
     "eslint-config-airbnb"
   ],
   "rules": {
+    "func-names": 0,
     "import/extensions": ["off"],
     "import/first": ["error", null],
     "import/order": "warn",
