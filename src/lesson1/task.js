@@ -189,12 +189,16 @@ function calcExpression(expression) {
   '100>5' => true
 */
 function calcComparison(expression) {
-  const isEqual = expression.split('=');
   try {
-    if (isEqual.length > 1 && !isEqual[0].includes('<') && !isEqual[0].includes('>')) {
-      return expression.split('=')[0] === expression.split('=')[1];
+    let newExp = expression;
+    if (expression.indexOf('=') !== -1 && expression.indexOf('<') === -1 && expression.indexOf('>') === -1) {      
+      if (expression.indexOf('=') === expression.lastIndexOf('=')) {
+        newExp = expression.replace('=', '===');
+      } else {
+        newExp = expression.replace('=', '==');
+      }
     }
-    return eval(expression);
+    return eval(newExp);
   } catch (error) {
     throw new Error(error);
   }
