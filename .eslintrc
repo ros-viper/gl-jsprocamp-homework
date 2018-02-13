@@ -3,6 +3,7 @@
     "eslint-config-airbnb"
   ],
   "rules": {
+    "linebreak-style": ["error", "windows"],
     "func-names": 0,
     "import/extensions": ["off"],
     "import/first": ["error", null],
